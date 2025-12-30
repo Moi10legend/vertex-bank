@@ -1,0 +1,21 @@
+node_modules/
+.next/
+__pycache__/
+.env
+.venv/
+dist/
+.DS_Store
+.idea/
+.vscode/
+backend/.venv/
+# Ignorar dados do banco
+*.dmp
+*.db
+*.sqlite3
+oradata/
+opt/oracle/
+# Se você tiver uma pasta 'docker-data' ou similar, coloque aqui:
+docker-data/
+oracle_data/
+*.dbf
+*.log
