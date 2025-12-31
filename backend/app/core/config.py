@@ -10,8 +10,8 @@ class Settings(BaseSettings):
     # Configurações do Banco de Dados
     ORACLE_USER: str
     ORACLE_PASSWORD: str
-    ORACLE_HOST: str
-    ORACLE_PORT: int
+    # ORACLE_HOST: str
+    # ORACLE_PORT: int
     ORACLE_SERVICE: str
     ORACLE_WALLET_DIR: str
 
