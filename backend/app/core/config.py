@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     # ORACLE_PORT: int
     ORACLE_SERVICE: str
     ORACLE_WALLET_DIR: str
+    ORACLE_WALLET_PASSWORD: str
 
     @property
     def DATABASE_URL(self) -> str:
@@ -26,7 +27,6 @@ class Settings(BaseSettings):
             f"{self.ORACLE_USER}:{self.ORACLE_PASSWORD}"
             f"@{self.ORACLE_SERVICE}"
             # f"?service_name={self.ORACLE_SERVICE}"
-            f"?config_dir={self.ORACLE_WALLET_DIR}"
         )
 
     class Config:
