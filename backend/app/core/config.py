@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     ORACLE_HOST: str
     ORACLE_PORT: int
     ORACLE_SERVICE: str
+    ORACLE_WALLET_DIR: str
 
     @property
     def DATABASE_URL(self) -> str:
@@ -23,8 +24,9 @@ class Settings(BaseSettings):
         return (
             f"oracle+oracledb_async://"
             f"{self.ORACLE_USER}:{self.ORACLE_PASSWORD}"
-            f"@{self.ORACLE_HOST}:{self.ORACLE_PORT}/"
-            f"?service_name={self.ORACLE_SERVICE}"
+            f"@{self.ORACLE_SERVICE}"
+            # f"?service_name={self.ORACLE_SERVICE}"
+            f"?config_dir={self.ORACLE_WALLET_DIR}"
         )
 
     class Config:

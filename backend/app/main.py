@@ -10,7 +10,7 @@ from sqlmodel import select
 # Lifespan events: Código que roda quando a API liga e desliga
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("Tentando conectar ao Oracle Database 23ai...")
+    print("Tentando conectar ao Oracle Database 26ai...")
     try:
         from sqlalchemy.orm import sessionmaker
         from sqlmodel.ext.asyncio.session import AsyncSession
@@ -48,4 +48,4 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 def read_root():
-    return {"message": "Sistema Bancário Operacional", "db_version": "Oracle 23ai"}
+    return {"message": "Sistema Bancário Operacional", "db_version": "Oracle 26ai"}

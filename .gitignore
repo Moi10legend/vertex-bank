@@ -19,3 +19,6 @@ docker-data/
 oracle_data/
 *.dbf
 *.log
+wallet/
+*.zip
+wallet_b64.txt
