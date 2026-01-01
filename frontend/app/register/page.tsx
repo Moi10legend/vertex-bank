@@ -39,8 +39,8 @@ export default function RegisterPage(){
 
       await api.post('/api/v1/users/', {
         email: email,
-        password: password,
         full_name: name,
+        password: password,
       });
       
       setSuccess(true);
