@@ -33,7 +33,7 @@ Diferente de projetos acadêmicos comuns, o Vertex Bank implementa **segurança 
 * **Deploy:** Render (Dockerizado)
 
 ### Frontend (Interface)
-* **Framework:** Next.js 14 (App Router)
+* **Framework:** Next.js 16 (App Router)
 * **Linguagem:** TypeScript
 * **Estilização:** Tailwind CSS
 * **Consumo de API:** Axios
@@ -62,3 +62,17 @@ cd backend
 poetry install
 # Crie um arquivo .env com suas credenciais (veja .env.example)
 poetry run uvicorn app.main:app --reload
+
+### 2. Frontend
+```bash
+cd frontend
+npm install
+# Crie um arquivo .env.local com a URL da API
+npm run dev
+
+## 🔗 Links
+Aplicação (Live Demo): [Acesse o Vertex Ban](https://vertex-bank-blue.vercel.app/)
+
+Documentação da API (Swagger): [Ver Docs](https://www.google.com/url?sa=E&source=gmail&q=https://vertex-bank-api.onrender.com/docs)
+
+Desenvolvido por Moisés 🚀
