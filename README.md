@@ -62,6 +62,7 @@ cd backend
 poetry install
 # Crie um arquivo .env com suas credenciais (veja .env.example)
 poetry run uvicorn app.main:app --reload
+```
 
 ### 2. Frontend
 ```bash
@@ -69,6 +70,7 @@ cd frontend
 npm install
 # Crie um arquivo .env.local com a URL da API
 npm run dev
+```
 
 ## 🔗 Links
 Aplicação (Live Demo): [Acesse o Vertex Ban](https://vertex-bank-blue.vercel.app/)
