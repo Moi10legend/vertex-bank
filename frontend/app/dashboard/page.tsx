@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {AxiosError} from "axios";
 import api from "@/app/src/services/api"
+import Link from "next/link";
 import { 
   LogOut, 
   Wallet, 
@@ -16,7 +17,7 @@ import {
 import { Modal } from "../src/components/modal";
 
 // Tipagem básica dos dados que virão do backend
-interface User {
+export interface User {
   full_name: string;
   email: string;
 }
@@ -29,7 +30,7 @@ interface Transaction {
   data: string;
 }
 
-interface Account{
+export interface Account{
   number: string,
   balance: number
 }
@@ -173,6 +174,7 @@ export default function Dashboard() {
             <div className="hidden md:flex flex-col text-right">
                 <span className="text-sm font-medium text-white">{user?.full_name}</span>
                 <span className="text-xs text-gray-500">{user?.email}</span>
+                <span className="text-xs text-gray-500">Conta: {account?.number}</span>
             </div>
             <button 
                 onClick={handleLogout}
@@ -220,10 +222,13 @@ export default function Dashboard() {
                          <div className="bg-gray-800 p-3 rounded-full text-red-400"><ArrowDownCircle /></div>
                         <span className="text-xs">Saídas</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-80 transition">
-                         <div className="bg-gray-800 p-3 rounded-full text-blue-400"><UserIcon /></div>
+                    <Link href="/profile">
+                      <div className="flex flex-col items-center gap-2 cursor-pointer hover:opacity-80 transition">
+                        <div className="bg-gray-800 p-3 rounded-full text-blue-400"><UserIcon /></div>
                         <span className="text-xs">Perfil</span>
-                    </div>
+                        
+                      </div>
+                    </Link>
                  </div>
             </div>
         </section>
