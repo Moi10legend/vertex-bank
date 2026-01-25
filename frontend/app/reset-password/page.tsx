@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import api from "@/app/src/services/api"
 import {AxiosError} from "axios";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react"
 
-export default function ResetPassword(){
+function ResetPasswordForm(){
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -139,4 +139,13 @@ export default function ResetPassword(){
             </form>
         </div>
     )
+}
+
+export default function ResetPasswordPage() {
+    return (
+        // O fallback é o que aparece enquanto o Next tenta ler a URL
+        <Suspense fallback={<div className="text-center mt-10">Carregando...</div>}>
+            <ResetPasswordForm />
+        </Suspense>
+    );
 }
