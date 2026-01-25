@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation"; // <--- Para redirecionar o usuári
 import { AxiosError } from "axios"; // <--- Para falar com o Backend
 import api from "@/app/src/services/api"
 import Link from "next/link";
+import { Modal } from "../src/components/modal";
 import { ArrowLeft, Lock, Mail, Loader2, Eye, EyeOff } from "lucide-react"; // Ícones bonitos
+import { Span } from "next/dist/trace";
 
 export default function LoginPage() {
   const router = useRouter()
@@ -14,7 +16,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // Para mostrar msg de erro
   const [loading, setLoading] = useState(false); // Para travar o botão enquanto carrega
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+
+  //Estados do modal de "esqueci minha senha"
+  const [forgotMyPasswordEmail, setForgotMyPasswordEmail] = useState("")
+  const [isForgotMyPasswordOpen, setIsForgotMyPasswordOpen] = useState(false);
+  const [isLoadingAction, setIsLoadingAction] = useState(false)
+
+  const [msgError, setMsgError] = useState("");
+  const [msgSuccess, setMsgSuccess] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +66,36 @@ export default function LoginPage() {
       setLoading(false); // Desativa o spinner independente do resultado
     }
   };
+
+
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMsgError(""); setMsgSuccess(""); setIsLoadingAction(true);
+    try{
+      await api.post("/api/v1/forgot-password",{
+      email: forgotMyPasswordEmail
+      
+    }, { })
+
+    setMsgSuccess("Se o e-mail estiver cadastrado, enviamos um link para você.");
+    setForgotMyPasswordEmail("")
+
+    }catch (err){
+      const error = err as AxiosError<{ detail: string }>;
+      setMsgError(error.response?.data.detail || "Erro ao solicitar recuperação de senha.");
+    }finally{
+      setIsLoadingAction(false)
+    }
+  }
+    
+
+  const closeModal = () => {
+    setIsForgotMyPasswordOpen(false);
+    setMsgError("");
+    setMsgSuccess("");
+    setForgotMyPasswordEmail("")
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white px-4">
@@ -146,7 +186,36 @@ export default function LoginPage() {
             Crie agora
           </Link>
         </p>
+        <p onClick={() => setIsForgotMyPasswordOpen(true)} className="mt-4 text-center text-gray-400 cursor-pointer hover:text-green-400">
+          Esqueci a senha
+        </p>
+
       </main>
+
+      <Modal isOpen={isForgotMyPasswordOpen} title="Esqueci a senha" onClose={closeModal} >
+        <form onSubmit={handleForgotPassword}>
+            {msgSuccess && <div className="p-2 mb-2 bg-green-500/20 text-green-400 rounded-lg text-sm">{msgSuccess}</div>}
+            {msgError && <div className="p-3 bg-red-500/20 text-red-400 rounded-lg text-sm">{msgError}</div>}
+
+            <div className="relative">
+              <Mail className="absolute left-3 top-6.5 transform -translate-y-1/2 text-gray-500" size={20} />
+              <input
+                type="email"
+                value={forgotMyPasswordEmail}
+                onChange={(e) => setForgotMyPasswordEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-white placeholder-gray-500"
+                placeholder="seu@email.com"
+                required
+                disabled={isLoadingAction}
+              />
+
+              <button type="submit" className="mt-4 bg-gray-800 p-2 rounded-xl hover:cursor-pointer hover:bg-green-500">
+                {isLoadingAction ? <Loader2 className="animate-spin"></Loader2> : "Enviar"}
+              </button>
+
+            </div>
+        </form>
+      </Modal>
     </div>
   );
 }

@@ -264,7 +264,7 @@ export default function Dashboard() {
                                             {t.transaction_type == 'transfer' ? 'Transferência' : t.transaction_type == 'deposit' ? 'Depósito' : 'Saque'}
                                         </p>
                                         <p className="text-sm text-gray-500">
-                                            {t.description || "Sem descrição"}
+                                            {t.description ? t.description : "Sem descrição"}
                                         </p>
                                         <p className="text-xs text-gray-600 mt-1">
                                             {new Date(t.data).toLocaleDateString('pt-BR')} às {new Date(t.data).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
@@ -274,9 +274,9 @@ export default function Dashboard() {
                                 <div className={`font-bold ${
                                     t.transaction_type === 'deposit' || (t.transaction_type === 'transfer' && t.description?.includes('Recebido')) 
                                     ? 'text-green-400' 
-                                    : 'text-gray-200'
+                                    : 'text-red-500'
                                 }`}>
-                                    {t.transaction_type === 'deposit' ? '+ ' : '- '}
+                                    {t.transaction_type === 'deposit'  || (t.transaction_type === 'transfer' && t.description?.includes('Recebido')) ? '+ ' : '- '}
                                     R$ {Number(t.amount).toFixed(2)}
                                 </div>
                             </div>

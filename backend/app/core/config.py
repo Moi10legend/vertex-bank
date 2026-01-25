@@ -16,6 +16,16 @@ class Settings(BaseSettings):
     ORACLE_WALLET_DIR: str
     ORACLE_WALLET_PASSWORD: str
 
+    MAIL_USERNAME: str
+    MAIL_PASSWORD: str
+    MAIL_FROM: str
+    MAIL_PORT: int = 587
+    MAIL_SERVER: str = "smtp.gmail.com"
+    MAIL_STARTTLS: bool = True
+    MAIL_SSL_TLS: bool = False
+
+    FRONTEND_URL: str = "http://localhost:3000"
+    
     @property
     def DATABASE_URL(self) -> str:
         """

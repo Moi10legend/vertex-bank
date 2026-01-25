@@ -2,7 +2,6 @@ from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime
 from decimal import Decimal
 from pytz import timezone
-from app.models.transaction import Transaction
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -15,5 +14,5 @@ class Account(SQLModel, table=True):
     balance: Decimal = Field(default=0, max_digits=15, decimal_places=2)
     user_id: int = Field(foreign_key="user.id")
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone("America/Recife")))
-    transactions: list[Transaction] = Relationship(back_populates="account" ,sa_relationship_kwargs={"cascade": "all, delete"})
+    transactions: list["Transaction"] = Relationship(back_populates="account" ,sa_relationship_kwargs={"cascade": "all, delete"})
     user: "User" = Relationship(back_populates="account")
