@@ -74,7 +74,8 @@ async def forgot_password(payload: ForgotPasswordRequired, session: AsyncSession
         MAIL_STARTTLS = settings.MAIL_STARTTLS,
         MAIL_SSL_TLS = settings.MAIL_SSL_TLS,
         USE_CREDENTIALS = True,
-        VALIDATE_CERTS = True
+        VALIDATE_CERTS = True,
+        TIMEOUT = 60
     )
     session.add(reset_entry)
     await session.commit()

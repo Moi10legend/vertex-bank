@@ -19,10 +19,10 @@ class Settings(BaseSettings):
     MAIL_USERNAME: str
     MAIL_PASSWORD: str
     MAIL_FROM: str
-    MAIL_PORT: int = 465
+    MAIL_PORT: int = 587
     MAIL_SERVER: str = "smtp.gmail.com"
-    MAIL_STARTTLS: bool = False
-    MAIL_SSL_TLS: bool = True
+    MAIL_STARTTLS: bool = True
+    MAIL_SSL_TLS: bool = False
 
     FRONTEND_URL: str = "http://localhost:3000"
     
