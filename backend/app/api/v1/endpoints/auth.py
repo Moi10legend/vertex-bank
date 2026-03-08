@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 import secrets
+import resend
 from datetime import datetime, timedelta, timezone
 from app.core.config import settings
 
@@ -65,18 +66,20 @@ async def forgot_password(payload: ForgotPasswordRequired, session: AsyncSession
         used=False
     )
 
-    conf = ConnectionConfig(
-        MAIL_USERNAME = settings.MAIL_USERNAME,
-        MAIL_PASSWORD = settings.MAIL_PASSWORD, # Não é a senha de login, crie uma App Password no Google
-        MAIL_FROM = settings.MAIL_FROM,
-        MAIL_PORT = settings.MAIL_PORT,
-        MAIL_SERVER = settings.MAIL_SERVER,
-        MAIL_STARTTLS = settings.MAIL_STARTTLS,
-        MAIL_SSL_TLS = settings.MAIL_SSL_TLS,
-        USE_CREDENTIALS = True,
-        VALIDATE_CERTS = True,
-        TIMEOUT = 60
-    )
+    resend.api_key = settings.RESEND_API_KEY
+
+    # conf = ConnectionConfig(
+    #     MAIL_USERNAME = settings.MAIL_USERNAME,
+    #     MAIL_PASSWORD = settings.MAIL_PASSWORD, # Não é a senha de login, crie uma App Password no Google
+    #     MAIL_FROM = settings.MAIL_FROM,
+    #     MAIL_PORT = settings.MAIL_PORT,
+    #     MAIL_SERVER = settings.MAIL_SERVER,
+    #     MAIL_STARTTLS = settings.MAIL_STARTTLS,
+    #     MAIL_SSL_TLS = settings.MAIL_SSL_TLS,
+    #     USE_CREDENTIALS = True,
+    #     VALIDATE_CERTS = True,
+    #     TIMEOUT = 60
+    # )
     session.add(reset_entry)
     await session.commit()
 
@@ -96,17 +99,22 @@ async def forgot_password(payload: ForgotPasswordRequired, session: AsyncSession
     </div>
     """
 
-    message = MessageSchema(
-        subject="Vertex Bank - Redefinição de Senha",
-        recipients=[payload.email],
-        body=html_content,
-        subtype=MessageType.html
-    )
+    # message = MessageSchema(
+    #     subject="Vertex Bank - Redefinição de Senha",
+    #     recipients=[payload.email],
+    #     body=html_content,
+    #     subtype=MessageType.html
+    # )
 
-    fm = FastMail(conf)
+    # fm = FastMail(conf)
     
     try:
-        await fm.send_message(message)
+        await r = resend.Emails.send({
+            "from": "Vertex Bank <onboarding@resend.dev>",
+            "to": payload.email,
+            "Subject": "Vertex Bank - Redefinição de senha",
+            "html": html_content
+        })
     except Exception as e:
         # Logar o erro internamente, mas não travar a resposta para o usuário
         print(f"Erro ao enviar email: {e}")
