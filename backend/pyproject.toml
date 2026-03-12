@@ -16,7 +16,6 @@ dependencies = [
     "pyjwt[crypto] (>=2.10.1,<3.0.0)",
     "pytz (>=2025.2,<2026.0)",
     "fastapi-mail (>=1.6.1,<2.0.0)",
-    "resend (>=2.23.0,<3.0.0)"
 ]
 
 
